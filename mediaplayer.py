@@ -35,6 +35,7 @@ class MediaPlayer:
         self.play()
 
     def set_media(self, movie_path, running_time):
+        print(running_time)
         media = self._instance.media_new(movie_path)
         self._player.set_media(media)
 

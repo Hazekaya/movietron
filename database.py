@@ -49,6 +49,9 @@ class Database:
 
     def get_current_movie(self):
         return self._get_data("current_movie")
+    
+    def get_current_movie_time(self):
+        return self._get_data("current_movie_time")
 
     def set_movies(self, movie_paths):
         movie_titles = []
