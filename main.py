@@ -103,7 +103,6 @@ class MovieTron(QMainWindow):
             self.db.set_current_movie(self._selected_movie, time)
             self.player.start(self._selected_movie)
 
-
     def end_movie(self, movie_path, duration=0):
         archive_path = self.db.get_archive_path()
         if archive_path and _path_exists(archive_path):
