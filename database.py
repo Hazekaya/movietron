@@ -99,7 +99,7 @@ class Database:
 
             data[term] = value
 
-            if scnd_term and scnd_val > 0:
+            if scnd_term and scnd_val and scnd_val > 0:
                 data[scnd_term] = scnd_val
 
             with open("movietron.json", "w") as outfile:

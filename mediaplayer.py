@@ -61,6 +61,7 @@ class MediaPlayer:
                 timer.cancel()
 
             if self._is_ended():
+                print(self._is_ended())
                 self._end()
 
             time.sleep(0.25)
@@ -76,7 +77,8 @@ class MediaPlayer:
         if vlc_foreground_window():
             running_time = 0
             if self._running_time() < self._duration():
-                running_time = self.running_time
+                running_time = self._running_time()
+            print(f"running_toime: {running_time}")
             self._movietron.end_movie(self._media_path, running_time)
             self._player.stop()
             self._quit_event.set()
@@ -89,9 +91,6 @@ class MediaPlayer:
         return self._state() is States.PAUSED.value
 
     def _is_playing(self):
-        print(self._state())
-        print(States.PLAYING.value)
-        print(self._state() == States.PLAYING.value)
         return self._state() == States.PLAYING.value
 
     def _is_stopped(self):

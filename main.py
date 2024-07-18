@@ -107,12 +107,12 @@ class MovieTron(QMainWindow):
         archive_path = self.db.get_archive_path()
         if archive_path and _path_exists(archive_path):
             self._archive_movie(movie_path)
-
-        if self._movie_ended():
+        print(f"duration: {duration}")
+        if duration == 0:
             self.db.set_watched_movies(movie_path)
             self.db.set_current_movie(None, None)
         else:
-            self.db.set_current_movie(movie_path, time=duration)
+            self.db.set_current_movie(movie_path, duration)
 
     def use_whammy(self):
         price = -1
@@ -128,11 +128,6 @@ class MovieTron(QMainWindow):
                 if file.lower().endswith(extension):
                     full_path = os.path.join(random_path, file)
                     return full_path
-
-    def _movie_ended(self):
-        duration = 10
-        time = 5
-        return time >= duration
 
     def _archive_movie(self, movie_path):
         for filename in os.listdir(movie_path):
