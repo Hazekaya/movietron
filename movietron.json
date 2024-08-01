@@ -1,20 +1,11 @@
 {
-    "root_path": "D:/\u30c6\u30ec\u30d3/\u5b9f\u5199\u6620\u753b/\u5b9f\u5199\u6620\u753b",
+    "root_path": null,
     "archive_path": null,
     "movies": [],
-    "watched_movies": [
-        "Seven.Samurai.1954.1080p.BluRay.x264-[YTS.AM].mp4",
-        "Dr..Strangelove.Or.How.I.Learned.To.Stop.Worrying.And.Love.The.Bomb.1964.1080p.BluRay.x264-[YTS.AM].mp4",
-        "Fireworks.1997.1080p.BluRay.x264.AAC-[YTS.MX].mp4",
-        "Jurassic.Park.1993.1080p.BRrip.x264.YIFY.mp4",
-        "Baragaki.Unbroken.Samurai.2021.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-        "Gangs.Of.New.York.2002.REMASTERED.2002.1080p.BrRip.x264.BOKUTOX.YIFY.mp4",
-        "Fargo.1996.1080p.BluRay.x264.YIFY.mp4",
-        "The.Evil.Dead.1981.1080p.BRrip.x264.GAZ.YIFY.mp4",
-        "Fancy.Pants.1950.1080p.BluRay.x264.AAC-[YTS.MX].mp4",
-        "Psycho.1960.1080p.BrRip.x264.YIFY.mp4"
-    ],
-    "current_movie": "D:\\\u30c6\u30ec\u30d3\\\u5b9f\u5199\u6620\u753b\\\u5b9f\u5199\u6620\u753b\\Ichi\\Ichi.2008.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-    "current_movie_time": 2901,
-    "whammies": 1
+    "watched_movies": [],
+    "current_movie": null,
+    "current_movie_duration": null,
+    "current_movie_time": null,
+    "whammies": 1,
+    "watched_movie_count": 0
 }

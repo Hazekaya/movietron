@@ -29,29 +29,40 @@ class MediaPlayer:
         self._quit_event = None
         self.running_time = 0
 
-    def start(self, movie_path, running_time=0):
+    def start(self, movie_path, running_time=0, duration_ms=0):
         self._media_path = movie_path
-        self.set_media(movie_path, running_time)
-        self.play()
+        self.set_media(movie_path)
+        self.play(running_time, duration_ms)
 
-    def set_media(self, movie_path, running_time):
-        print(running_time)
+    def set_media(self, movie_path):
         media = self._instance.media_new(movie_path)
         self._player.set_media(media)
 
-    def play(self):
+    def play(self, running_time, duration):
         self._quit_event = threading.Event()
         self._player.play()
+        self._player.audio_set_volume(100)
+        self.set_position(running_time, duration)
+
         self._change_state()
 
     @threaded
     def _change_state(self):
+        time_to_skip_s = 10
         while not self._quit_event.is_set():
             def handle_timeout():
                 pass
 
-            timer = threading.Timer(5, handle_timeout)
+            timer = threading.Timer(3, handle_timeout)
             timer.start()
+
+            if self._is_ended():
+                self._end()
+
+            duration = self._duration() / 1000
+            running_time = self._running_time() / 1000
+            volume = self._player.audio_get_volume()
+            vol_in_dec = 5
 
             if vlc_foreground_window():
                 key = keyboard.read_key()
@@ -59,14 +70,24 @@ class MediaPlayer:
                     self._pause()
                 if key == 'esc':
                     self._quit()
-                timer.cancel()
+                if key == 'left':
+                    self._player.set_position((running_time - time_to_skip_s) / duration)
+                if key == 'right':
+                    self._player.set_position((running_time + time_to_skip_s) / duration)
+                if key == 'up':
+                    self._player.audio_set_volume(volume + vol_in_dec)
+                if key == 'down':
+                    self._player.audio_set_volume(volume - vol_in_dec)
 
-            if self._is_ended():
-                print(self._is_ended())
-                self._end()
+            timer.cancel()
+            time.sleep(0.30)
 
-            time.sleep(0.25)
-
+    def set_position(self, running_time, duration):
+        if running_time and running_time > 0:
+            running_time_s = running_time / 1000
+            duration_s = duration / 1000
+            skip_to_s = running_time_s / duration_s
+            self._player.set_position(skip_to_s)
     def _pause(self):
         if vlc_foreground_window():
             if self._is_playing():
@@ -79,29 +100,29 @@ class MediaPlayer:
             running_time = 0
             if self._running_time() < self._duration():
                 running_time = self._running_time()
-            print(f"running_toime: {running_time}")
             self._movietron.end_movie(self._media_path, running_time)
             self._player.stop()
             self._quit_event.set()
 
     def _end(self):
         self._movietron.end_movie(self._media_path)
+        self._player.stop()
         self._quit_event.set()
 
     def _is_paused(self):
-        return self._state() is States.PAUSED.value
+        return self._state() == States.PAUSED.value
 
     def _is_playing(self):
         return self._state() == States.PLAYING.value
 
     def _is_stopped(self):
-        return self._state() is States.STOPPED.value
+        return self._state() == States.STOPPED.value
 
     def _is_ended(self):
-        return self._state() is States.ENDED.value
+        return self._state() == States.ENDED.value
 
     def _has_error(self):
-        return self._state() is States.ERROR
+        return self._state() == States.ERROR
 
     def _state(self):
         return self._player.get_state()
